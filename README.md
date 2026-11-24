@@ -15,5 +15,6 @@ Include the pebble distribution.
 
 
 time spent:
-angel - 30 mins
+angel - 30 mins.
+
 samar - _____
