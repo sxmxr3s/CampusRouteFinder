@@ -14,8 +14,8 @@ Include the pebble distribution.
 6 - The pebble distribution should have been discussed with the team before including it in the video. If the pebble distribution is uneven, describe the reason why.
 
 
-time spent:
+Time spent:
 
 angel - 30 mins.
 
-samar - _____
+samar - 2 hours
