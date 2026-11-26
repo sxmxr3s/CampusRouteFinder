@@ -1,1 +1,95 @@
+import java.util.ArrayList;
+import edu.princeton.cs.algs4.BreadthFirstPaths;
+import edu.princeton.cs.algs4.DijkstraUndirectedSP;
+import edu.princeton.cs.algs4.Edge;
+import edu.princeton.cs.algs4.EdgeWeightedGraph;
+import edu.princeton.cs.algs4.Graph;
 
+/**
+ * This class contains the methods findShortest() which finds the route with the shortest
+ * distance and leastStops() which finds the route with the least number of stops.
+ * 
+ * @author samar + angel
+ */
+public class RouteFinder {
+	private RouteMap map;
+	
+	/**
+	 * Map used for RouteFinder.
+	 * 
+	 * @param map Map.
+	 */
+	public RouteFinder(RouteMap map) {
+		this.map = map;
+	}
+	
+	/**
+	 * Finds the path with the shortest distance and returns it as a route for
+	 * the EdgeWeightedGraph.
+	 * 
+	 * @param start Starting location.
+	 * @param destination Ending destination.
+	 * @return Shortest route.
+	 */
+	public Route findShortest(int start, int destination) {
+		EdgeWeightedGraph edgeWeightedGraph = map.getWeightedGraph();
+		DijkstraUndirectedSP dUndirectedSP = new DijkstraUndirectedSP(edgeWeightedGraph, start);
+		
+		// If there is a path to the destination.
+		if (!dUndirectedSP.hasPathTo(destination)) {
+			return null;
+		}
+		
+		ArrayList<Location> locationList = new ArrayList<Location>();
+		int currentID = start;
+		double totalDistance = dUndirectedSP.distTo(destination);
+		
+		locationList.add(map.getLocation(start));
+		
+		// Adding stops to the route.
+		for (Edge edge : dUndirectedSP.pathTo(destination)) {
+			int nextID = edge.other(currentID);
+
+			locationList.add(map.getLocation(nextID));
+			currentID = nextID;
+		}
+		
+		return new Route(locationList, totalDistance);	
+	}
+	
+	/**
+	 * Finds the path with the least number of stops and returns it as a route 
+	 * for the EdgeWeightedGraph.
+	 * 
+	 * @param start Starting location.
+	 * @param destination Ending destination.
+	 * @return Route with least number of stops.
+	 */
+	public Route leastStops(int start, int destination) {
+		Graph graph = map.getGraph();
+		BreadthFirstPaths bfs = new BreadthFirstPaths(graph, start);
+
+		// If there is a path to the destination.
+		if (!bfs.hasPathTo(destination)) {
+			return null;
+		}
+		
+		ArrayList<Location> locationList = new ArrayList<Location>();
+		double totalDistance = 0;
+
+		// Creating list of stops.
+		for (int id : bfs.pathTo(destination)) {
+			locationList.add(map.getLocation(id));
+		}
+		
+		// Calculating distance of path.
+		for (int i = 0; i < locationList.size() - 1; i++) {
+			int firstID = locationList.get(i).getID();
+			int secondID = locationList.get(i + 1).getID();
+
+			totalDistance += map.getDistance(firstID, secondID);
+		}
+		
+		return new Route(locationList, totalDistance);
+	}
+}
