@@ -1,1 +1,108 @@
+import edu.princeton.cs.algs4.Edge;
+import edu.princeton.cs.algs4.EdgeWeightedGraph;
+import edu.princeton.cs.algs4.Graph;
+import edu.princeton.cs.algs4.ST;
 
+/**
+ * This class creates a RouteMap and allows the addition of a location or path. 
+ * It also returns the regular graph, EdgeWeighted graph, the location (by name
+ * or ID), and the distance between two locations
+ * 
+ * @author samar + angel. 
+ */
+public class RouteMap {
+	private Graph graph;
+	private EdgeWeightedGraph edgeWeightedGraph;
+	private Location[] locations;
+	private ST<String, Integer> iDNames;
+	
+	/**
+	 * Creates a RouteMap.
+	 * 
+	 * @param locations List of locations.
+	 */
+	public RouteMap(Location[] locations, ST<String, Integer> idName) {
+		this.graph = new Graph(locations.length);
+		this.edgeWeightedGraph = new EdgeWeightedGraph(locations.length);
+		this.locations = locations;
+	}
+	
+	/**
+	 * Adds location to list of locations and gives it an ID and name.
+	 * 
+	 * @param location Location being added.
+	 */
+	public void addLocation(Location location) {
+		locations[location.getID()] = location;
+		iDNames.put(location.getName(), location.getID());
+	}
+	
+	/**
+	 * Adds a new path between two locations and the distance between them to 
+	 * the EdgeWeightedGraph.
+	 * 
+	 * @param firstID First location.
+	 * @param secondID Second Location.
+	 * @param distance Distance between them.
+	 */
+	public void addNewPath(int firstID, int secondID, double distance) {
+		graph.addEdge(firstID, secondID);
+		edgeWeightedGraph.addEdge(new Edge(firstID, secondID, distance));
+	}
+	
+	/**
+	 * Returns all locations by their IDs.
+	 * 
+	 * @param ID The ID.
+	 * @return IDs.
+	 */
+	public Location getLocation(int ID) {
+		return locations[ID];
+	}
+	
+	/**
+	 * Returns all locations by their names.
+	 * 
+	 * @param name The name.
+	 * @return Names.
+	 */
+	public int getLocation(String name) {
+		return iDNames.get(name);
+	}
+	
+	/**
+	 * Returns distance between two locations.
+	 * 
+	 * @param firstID First location.
+	 * @param secondID Second location.
+	 * @return The distance between locations or negative one if there is no path.
+	 * between them.
+	 */
+	public double getDistance(int firstID, int secondID) {
+		for (Edge currentEdge : edgeWeightedGraph.adj(firstID)) {
+			if (currentEdge.other(firstID) == secondID) {
+				return currentEdge.weight();
+			}
+		}
+		
+		return -1;
+	}
+	
+	/**
+	 * Returns graph.
+	 * 
+	 * @return Regular graph.
+	 */
+	public Graph getGraph() {
+		return graph;
+	}
+	
+	/**
+	 * Returns EdgeWeighted graph.
+	 * 
+	 * @return EdgeWeighted graph.
+	 */
+	public EdgeWeightedGraph getWeightedGraph() {
+		return edgeWeightedGraph;
+	}
+}
