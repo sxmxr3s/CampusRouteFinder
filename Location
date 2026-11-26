@@ -1,1 +1,63 @@
+/**
+ * This class contains the data of the location including: ID, name, and
+ * X and Y positioning.
+ * 
+ * @author angel + samar
+ */
+public class Location {
+	private String name;
+	private int id = 0;
+	private int x = 0;
+	private int y = 0;
+	
+	/**
+	 * Creates the location.
+	 * 
+	 * @param name The name of a building on the campus map.
+	 * @param id The number that identifies (ID) a building on the campus map.
+	 * @param x The horizontal coordinate on the campus map.
+	 * @param y The vertical coordinate on the campus map.
+	 */
+	public Location(String name, int id, int x, int y) {
+		this.name = name;
+		this.id = id;
+		this.x = x;
+		this.y = y;
+	}
 
+	/**
+	 * Returns the name of the location.
+	 * 
+	 * @return The name.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Returns the ID of the location.
+	 * 
+	 * @return The ID.
+	 */
+	public int getID() {
+		return id;
+	}
+
+	/**
+	 * Returns the X coordinate of the location.
+	 * 
+	 * @return the X.
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Returns the Y coordinate of the location.
+	 * 
+	 * @return the Y.
+	 */
+	public int getY() {
+		return y;
+	}
+}
